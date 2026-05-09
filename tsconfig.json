@@ -1,0 +1,37 @@
+{
+    "compilerOptions": {
+        /* Base options */
+        "declaration": true,
+        "esModuleInterop": true,
+        "module": "nodenext",
+        "moduleDetection": "force",
+        "moduleResolution": "nodenext",
+        "outDir": "lib",
+        "skipLibCheck": true,
+        "verbatimModuleSyntax": true,
+        /* Strictness */
+        "alwaysStrict": true,
+        "exactOptionalPropertyTypes": true,
+        "importHelpers": true,
+        "noEmitHelpers": true,
+        "noImplicitAny": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "removeComments": true,
+        "rootDir": "./src",
+        "strict": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "strictFunctionTypes": true,
+    },
+    "exclude": [
+        "lib",
+        "**/node_modules/*",
+        "**/tests/*"
+    ],
+    "include": ["src"]
+}
