@@ -1,4 +1,4 @@
-import type { LFPEleventyScope } from '../types.d.ts';
+import type { LFPEleventyScope, LFPShortcodeConfig } from '../types.d.ts';
 import { ifCaption, ifID, md, setCounter } from '../util/helper.js';
 
 /**
@@ -10,7 +10,7 @@ import { ifCaption, ifID, md, setCounter } from '../util/helper.js';
  * {% endtable %}
  * ```
  */
-export function table(this: LFPEleventyScope, content: string, caption: string = '', id: string = '') {
+export function table(this: LFPEleventyScope, config: LFPShortcodeConfig, content: string, caption: string = '', id: string = '') {
   const counter = setCounter(this.page, 'table');
   const captionContent = ifCaption(
     caption,

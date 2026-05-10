@@ -1,14 +1,9 @@
-import crypto from 'node:crypto';
-import type { LFPEleventyScope } from '../types.d.ts';
+import { randomUUID } from 'node:crypto';
+import type { LFPEleventyScope, LFPShortcodeConfig } from '../types.d.ts';
 import { hasCaption, ifCaption, ifID, md, setCounter } from '../util/helper.js';
 
 /**
  * Paired shortcode to wrap code or code blocks inside a figure element.
- * @param {String} content The content inside the paired shortcode.
- * @param {String} [caption=''] The caption describing the code.
- * @param {String} [id=''] Optional ID to enable linking.
- * @param {"true"|"false"} [hideCopy="false"] Hide copy button, useful when displaying pseudo code.
- * @returns {String} The HTML string representation of HTMLFigureElement.
  * @example
  * ```nunjucks
  * {% listing "Codeblock inside figure with caption." "listing-id-1" %}
@@ -21,13 +16,14 @@ import { hasCaption, ifCaption, ifID, md, setCounter } from '../util/helper.js';
  */
 export function listing(
   this: LFPEleventyScope,
+  config: LFPShortcodeConfig, 
   content: string,
   caption: string = '',
   id: string = '',
   hideCopy: 'true' | 'false' = 'false'
 ) {
   const counter = setCounter(this.page, 'listing');
-  const uuid = crypto.randomUUID();
+  const uuid = randomUUID();
   
   // insert button here instead of programmatically with JavaScript to prevent
   // excessive layout shifts

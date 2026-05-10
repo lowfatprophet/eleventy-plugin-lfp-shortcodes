@@ -1,3 +1,4 @@
+import type { LFPEleventyScope, LFPShortcodeConfig } from '../types.d.ts';
 import { hasCaption, ifCaption, md, mdWith } from '../util/helper.js';
 
 /**
@@ -46,7 +47,7 @@ function textEnd(line: string) {
  *     right back to you!
  * {% endpoem %}
  */
-export function poem(content: string, caption: string = '') {
+export function poem(this: LFPEleventyScope, config: LFPShortcodeConfig, content: string, caption: string = '') {
   const formattedContent = content
     .split('\n')
     .reduce((poem, line, i, lines) => {

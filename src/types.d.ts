@@ -1,10 +1,47 @@
+import type { EleventySuppliedData } from '11ty.ts';
+
+interface AddendumConfig {
+  header: {
+    style: string;
+    class: string;
+    [key: string]: string;
+  }
+}
+
+
+interface BlockquoteConfig {
+  attribution: {
+    style: string;
+    class: string;
+    [key: string]: string;
+  }
+}
+
+export interface LFPShortcodeConfig {
+  js: boolean;
+  css: boolean;
+  dev: boolean;
+  addendum?: AddendumConfig;
+  blockquote?: BlockquoteConfig;
+  detail?: DetailConfig;
+  embed?: EmbedConfig;
+  figure?: FigureConfig;
+  inflation?: InflationConfig;
+  listing?: ListingConfig;
+  math?: MathConfig;
+  poem?: PoemConfig;
+  richlink?: RichlinkConfig;
+  table?: TableConfig;
+  transformer?: TransformerConfig;
+}
 
 export declare function EmbedFunction(url: URL): string;
 export declare function EmbedFunction(url: URL): Promise<string>;
 export declare function EmbedFunction(url: URL, uuid: string): string;
 export declare function EmbedFunction(url: URL, uuid: string): Promise<string>;
 
-export interface LFPEleventyData extends EleventyData {
+// exact types from `EleventyData` will still have to come from somewhere
+export interface LFPEleventyData {
   directories: {
     input: string;
 		includes: string;
@@ -12,6 +49,11 @@ export interface LFPEleventyData extends EleventyData {
 		output: string;
   }
 }
+
+export interface LFPEleventySuppliedData extends EleventySuppliedData {
+  [key: string]: any;
+  counters?: Record<string, number>;
+};
 
 export interface LFPEleventyScope {
   eleventy: LFPEleventyData;

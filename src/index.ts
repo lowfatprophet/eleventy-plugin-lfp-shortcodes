@@ -11,6 +11,7 @@ import { poem } from './shortcodes/poem.js';
 import { richlink } from './shortcodes/richlink.js';
 import { table } from './shortcodes/table.js';
 import { css, js, jsbundle } from './shortcodes/transformer.js';
+import type { LFPShortcodeConfig } from './types.d.ts';
 
 export {
   addendum,
@@ -30,18 +31,39 @@ export {
   table
 };
 
-export default function (eleventyConfig: EleventyConfig) {
+// type ShortcodeFunction<T extends (config: LFPShortcodeConfig, ...args: any[]) => Promise<string> | string> = (...args: Omit<Parameters<T>, 'config'>) => ReturnType<T>;
+
+export default function (eleventyConfig: EleventyConfig, options: LFPShortcodeConfig) {
+  const _config = Object.assign(
+    {
+      css: true,
+      js: true,
+    } as LFPShortcodeConfig,
+    options,
+  );
+
   // single shortcodes
   [css, embed, figure, inflation, js, jsbundle, richlink].forEach(shortcode => {
-    // @ts-expect-error
-    eleventyConfig.addShortcode(shortcode.name, shortcode);
+    eleventyConfig.addShortcode(
+      shortcode.name,
+      // @ts-expect-error
+      async (...args) => {
+        // @ts-expect-error
+        return shortcode.call(this, _config, ...args);
+      },
+    );
   });
 
   // paired shortcodes
   [addendum, blockquote, detail, listing, math, mathblock, poem, table].forEach(
     shortcode => {
-      // @ts-expect-error
-      eleventyConfig.addPairedShortcode(shortcode.name, shortcode);
+      eleventyConfig.addPairedShortcode(
+        shortcode.name,
+        async (...args) => {
+          // @ts-expect-error
+          return shortcode.call(this, _config, ...args);
+        },
+      );
     },
   );
 }

@@ -2,7 +2,7 @@ import Fetch from '@11ty/eleventy-fetch';
 import { getLinkPreview } from 'link-preview-js';
 import { randomUUID } from 'node:crypto';
 import { lookup } from 'node:dns';
-import type { ILinkPreviewResponse, LFPEleventyScope, LFPPreviewResponse } from '../types.d.ts';
+import type { ILinkPreviewResponse, LFPEleventyScope, LFPPreviewResponse, LFPShortcodeConfig } from '../types.d.ts';
 import { setCounter } from '../util/helper.js';
 
 /**
@@ -12,7 +12,7 @@ import { setCounter } from '../util/helper.js';
  * {% richlink "https://11ty.dev" %}
  * ```
  */
-export async function richlink(this: LFPEleventyScope, url: string) {
+export async function richlink(this: LFPEleventyScope, config: LFPShortcodeConfig, url: string) {
   // the counter is only used to notify the Nunjucks templating engine that styles for rich links should be included on this page.
   setCounter(this.page, 'richlink');
 

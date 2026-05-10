@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@11ty/eleventy-fetch": "^5.1.2",
+    "@lowfat/utils": "^0.0.1",
     "browserslist": "^4.28.2",
     "gray-matter": "^4.0.3",
     "lightningcss": "^1.32.0",
@@ -35,7 +36,9 @@
   },
   "tsdown": {
     "format": {
-      "esm": ["nodenext"]
+      "esm": [
+        "nodenext"
+      ]
     },
     "outDir": "lib"
   },

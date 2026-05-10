@@ -1,3 +1,4 @@
+import type { LFPEleventyScope, LFPShortcodeConfig } from "../types.d.ts";
 import { isURL, md, softSanitize } from "../util/helper.js";
 
 /**
@@ -9,7 +10,7 @@ import { isURL, md, softSanitize } from "../util/helper.js";
  * {% endblockquote %}
  * ```
  */
-export function blockquote(quote: string, attribution: string = '', cite: string = '') {
+export function blockquote(this: LFPEleventyScope, config: LFPShortcodeConfig, quote: string, attribution: string = '', cite: string = '') {
   return /* html */ `<blockquote ${isURL(cite) ? `cite="${cite}"` : ''}>
     ${md.renderInline(quote)}
     ${

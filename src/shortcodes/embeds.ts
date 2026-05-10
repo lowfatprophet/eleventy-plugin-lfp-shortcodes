@@ -1,5 +1,5 @@
 import Fetch from '@11ty/eleventy-fetch';
-import type { LFPBlueskyEmbedResponse, LFPEleventyScope } from '../types.d.ts';
+import type { LFPBlueskyEmbedResponse, LFPEleventyScope, LFPShortcodeConfig } from '../types.d.ts';
 import { setCounter, wbr } from '../util/helper.js';
 
 interface EmbedOptions {
@@ -242,7 +242,7 @@ async function mastodonEmbed(url: URL, uuid: string) {
  * {% embed "https://mastodon.social/@deejayy/115454110249651937" %}
  * ```
  */
-export async function embed(this: LFPEleventyScope, url: string) {
+export async function embed(this: LFPEleventyScope, config: LFPShortcodeConfig, url: string) {
   if (!url) return '';
 
   setCounter(this.page, 'embed');

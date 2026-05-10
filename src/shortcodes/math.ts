@@ -1,5 +1,5 @@
 import Temml, { type Options as TemmlOptions } from 'temml';
-import type { LFPEleventyScope } from '../types.d.ts';
+import type { LFPEleventyScope, LFPShortcodeConfig } from '../types.d.ts';
 import { hasCaption, ifCaption, ifID, setCounter } from '../util/helper.js';
 
 function renderMath(content: string, options?: Partial<TemmlOptions>) {
@@ -17,7 +17,7 @@ function renderMath(content: string, options?: Partial<TemmlOptions>) {
  * Lorem ipsum {% math %}a^2+b^2=c^2{% endmath %} dolor sit amet.
  * ```
  */
-export function math(content: string) {
+export function math(this: LFPEleventyScope, config: LFPShortcodeConfig, content: string) {
   return renderMath(content);
 }
 
@@ -30,7 +30,13 @@ export function math(content: string) {
  * {% endmathblock %}
  * ```
  */
-export function mathblock(this: LFPEleventyScope, content: string, caption: string = '', id: string = '') {
+export function mathblock(
+  this: LFPEleventyScope,
+  config: LFPShortcodeConfig,
+  content: string,
+  caption: string = '',
+  id: string = ''
+) {
   const counter = setCounter(this.page, 'mathblock');
   return /* html */ `<figure ${ifCaption(caption, `aria-label="Listing ${counter}: ${caption}"`)} ${!hasCaption(caption) ? 'role="figure"' : ''} ${ifID(id, `id="${id}"`)}>
   <lfp-copy-button copy-target="#expression-frame-${counter} annotation" button-text="Copy expression" copy-text="Expression copied!">
