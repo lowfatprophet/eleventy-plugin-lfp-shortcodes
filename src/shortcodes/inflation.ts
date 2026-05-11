@@ -1,5 +1,5 @@
 import Fetch from '@11ty/eleventy-fetch';
-import type { LFPEleventyScope, LFPShortcodeConfig } from '../types.d.ts';
+import type { LFPEleventyScope } from '../types.d.ts';
 import { prettydate } from '../util/helper.js';
 
 /**
@@ -9,7 +9,7 @@ import { prettydate } from '../util/helper.js';
  * {% inflation "$420" "1929" %}
  * ```
  */
-export async function inflation(this: LFPEleventyScope, config: LFPShortcodeConfig, value: string, year: string) {
+export async function inflation(this: LFPEleventyScope, value: string, year: string) {
   const today = new Date();
   const params = new URLSearchParams(
     Object.entries({
@@ -24,13 +24,11 @@ export async function inflation(this: LFPEleventyScope, config: LFPShortcodeConf
       format: 'true', // makes sure that format fits currency
     }),
   );
-  return await Fetch<Promise<string>>(
+  const json = await Fetch<Promise<string>>(
     `https://www.statbureau.org/calculate-inflation-price-json?${params.toString()}`,
     { duration: '4w', type: 'json' },
-  )
-    .then(json => {
-      // return /* html */ `${value}<sub>(${dollar() || pound()}${json}${euro()} in ${today.getFullYear()})</sub>`;
-      return /* html */ `${value}<sub>(${json} in ${today.getFullYear()})</sub>`;
-    })
-    .catch(() => value);
+  );
+  return json
+    ? /* html */ `${value}<sub>(${json} in ${today.getFullYear()})</sub>`
+    : value;
 }

@@ -11,7 +11,8 @@ import { poem } from './shortcodes/poem.js';
 import { richlink } from './shortcodes/richlink.js';
 import { table } from './shortcodes/table.js';
 import { css, js, jsbundle } from './shortcodes/transformer.js';
-import type { LFPShortcodeConfig } from './types.d.ts';
+import type { LFPEleventyScope, LFPShortcodeConfig } from './types.d.ts';
+import { initConfig } from './util/config.js';
 
 export {
   addendum,
@@ -33,24 +34,26 @@ export {
 
 // type ShortcodeFunction<T extends (config: LFPShortcodeConfig, ...args: any[]) => Promise<string> | string> = (...args: Omit<Parameters<T>, 'config'>) => ReturnType<T>;
 
-export default function (eleventyConfig: EleventyConfig, options: LFPShortcodeConfig) {
-  const _config = Object.assign(
+export default function (this: LFPEleventyScope, eleventyConfig: EleventyConfig, options: LFPShortcodeConfig) {
+  initConfig(Object.assign(
     {
       css: true,
       js: true,
+      transformer: {
+        outputPath: 'assets',
+      },
     } as LFPShortcodeConfig,
     options,
-  );
+  ));
 
   // single shortcodes
   [css, embed, figure, inflation, js, jsbundle, richlink].forEach(shortcode => {
     eleventyConfig.addShortcode(
       shortcode.name,
-      // @ts-expect-error
-      async (...args) => {
-        // @ts-expect-error
-        return shortcode.call(this, _config, ...args);
-      },
+      // @ts-expect-error `EleventyData` from 11ty.ts type support
+      // is not compatible with the plugin's own `LFPEleventyData` type support
+      // (the latter enhances the former with more and custom properties)
+      shortcode,
     );
   });
 
@@ -59,10 +62,10 @@ export default function (eleventyConfig: EleventyConfig, options: LFPShortcodeCo
     shortcode => {
       eleventyConfig.addPairedShortcode(
         shortcode.name,
-        async (...args) => {
-          // @ts-expect-error
-          return shortcode.call(this, _config, ...args);
-        },
+        // @ts-expect-error `EleventyData` from 11ty.ts type support
+        // is not compatible with the plugin's own `LFPEleventyData` type support
+        // (the latter enhances the former with more and custom properties)
+        shortcode,
       );
     },
   );

@@ -1,9 +1,12 @@
+import Log from '@lowfat/log';
 import type { EleventySuppliedData } from '11ty.ts';
 import browserslist from 'browserslist';
-import { browserslistToTargets, type CustomAtRules, transform, type TransformOptions } from 'lightningcss';
+import { browserslistToTargets, transform, type CustomAtRules, type TransformOptions } from 'lightningcss';
 import markdownIt, { type Options as MarkdownItOptions } from 'markdown-it';
 import { type MinifyOptions, minify as minifyTerser } from 'terser';
 import { DEFAULT_MD_OPTIONS } from './constants.js';
+
+export const log = new Log('eleventy-plugin-lfp-shortcodes', 0);
 
 function isDevelopment() { return false; }
 

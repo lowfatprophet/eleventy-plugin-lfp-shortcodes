@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import type { LFPEleventyScope, LFPShortcodeConfig } from '../types.d.ts';
+import type { LFPEleventyScope } from '../types.d.ts';
 import { hasCaption, ifCaption, ifID, md, setCounter } from '../util/helper.js';
 
 /**
@@ -16,7 +16,6 @@ import { hasCaption, ifCaption, ifID, md, setCounter } from '../util/helper.js';
  */
 export function listing(
   this: LFPEleventyScope,
-  config: LFPShortcodeConfig, 
   content: string,
   caption: string = '',
   id: string = '',

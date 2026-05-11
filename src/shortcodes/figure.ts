@@ -1,4 +1,4 @@
-import type { LFPEleventyScope, LFPShortcodeConfig } from '../types.d.ts';
+import type { LFPEleventyScope } from '../types.d.ts';
 import { hasCaption, ifCaption, ifID, md, setCounter } from '../util/helper.js';
 
 /**
@@ -10,7 +10,6 @@ import { hasCaption, ifCaption, ifID, md, setCounter } from '../util/helper.js';
  */
 export function figure(
   this: LFPEleventyScope,
-  config: LFPShortcodeConfig,
   src: string,
   alt: string = '',
   caption: string = '',

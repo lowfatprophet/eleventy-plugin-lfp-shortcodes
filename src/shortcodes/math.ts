@@ -1,5 +1,5 @@
 import Temml, { type Options as TemmlOptions } from 'temml';
-import type { LFPEleventyScope, LFPShortcodeConfig } from '../types.d.ts';
+import type { LFPEleventyScope } from '../types.d.ts';
 import { hasCaption, ifCaption, ifID, setCounter } from '../util/helper.js';
 
 function renderMath(content: string, options?: Partial<TemmlOptions>) {
@@ -17,7 +17,7 @@ function renderMath(content: string, options?: Partial<TemmlOptions>) {
  * Lorem ipsum {% math %}a^2+b^2=c^2{% endmath %} dolor sit amet.
  * ```
  */
-export function math(this: LFPEleventyScope, config: LFPShortcodeConfig, content: string) {
+export function math(this: LFPEleventyScope, content: string) {
   return renderMath(content);
 }
 
@@ -32,7 +32,6 @@ export function math(this: LFPEleventyScope, config: LFPShortcodeConfig, content
  */
 export function mathblock(
   this: LFPEleventyScope,
-  config: LFPShortcodeConfig,
   content: string,
   caption: string = '',
   id: string = ''

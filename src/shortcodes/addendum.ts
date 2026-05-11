@@ -1,6 +1,6 @@
 import matter from 'gray-matter';
 import { readFile } from 'node:fs/promises';
-import type { LFPEleventyScope, LFPShortcodeConfig } from '../types.d.ts';
+import type { LFPEleventyScope } from '../types.d.ts';
 import { WRITTEN_NUMBERS } from '../util/constants.js';
 import { setCounter } from '../util/helper.js';
 
@@ -16,7 +16,6 @@ import { setCounter } from '../util/helper.js';
  */
 export async function addendum(
   this: LFPEleventyScope,
-  { css, js, addendum }: LFPShortcodeConfig,
   content: string,
   date: `${number}-${number}-${number}`,
 ) {
@@ -43,8 +42,6 @@ export async function addendum(
       Addendum ${counter} <a href="#addendum-${counter} class="header-anchor">
         <span class="vh" data-pagefind-ignore>&para;</span>
       </a>
-      <!-- HIER SIND NUR TESTS! -->
-      <span>${css}${js}${addendum}</span>
     </h${level}>`,
   ];
 

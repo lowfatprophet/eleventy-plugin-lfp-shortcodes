@@ -1,4 +1,4 @@
-import type { LFPEleventyScope, LFPShortcodeConfig } from "../types.d.ts";
+import type { LFPEleventyScope } from "../types.d.ts";
 import { ifID } from "../util/helper.js";
 
 /**
@@ -12,8 +12,7 @@ import { ifID } from "../util/helper.js";
  * ```
  */
 export function detail(
-  this: LFPEleventyScope, 
-  config: LFPShortcodeConfig,
+  this: LFPEleventyScope,
   content: string,
   summary: string,
   name: string = '',

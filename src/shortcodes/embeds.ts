@@ -1,6 +1,8 @@
 import Fetch from '@11ty/eleventy-fetch';
-import type { LFPBlueskyEmbedResponse, LFPEleventyScope, LFPShortcodeConfig } from '../types.d.ts';
-import { setCounter, wbr } from '../util/helper.js';
+import type { LFPBlueskyEmbedResponse, LFPEleventyScope } from '../types.d.ts';
+import { log, setCounter, wbr } from '../util/helper.js';
+import { getConfig } from '../util/config.js';
+import Log from '@lowfat/log';
 
 interface EmbedOptions {
   /**
@@ -242,16 +244,22 @@ async function mastodonEmbed(url: URL, uuid: string) {
  * {% embed "https://mastodon.social/@deejayy/115454110249651937" %}
  * ```
  */
-export async function embed(this: LFPEleventyScope, config: LFPShortcodeConfig, url: string) {
+export async function embed(this: LFPEleventyScope, url: string) {
   if (!url) return '';
+  const { embed: embedConfig } = getConfig();
+
+  if (!embedConfig?.baseUrl) {
+    log.error('`embed.baseUrl` missing from plugin configuration.');
+    return;
+  }
 
   setCounter(this.page, 'embed');
 
   const fallback = fallbackPhraser(url);
 
+
   const _url = new URL(
-    // url.startsWith('/') ? `${siteConfig.url.replace(/\/$/, '')}${url}` : url,
-    url
+    url.startsWith('/') ? `${embedConfig?.baseUrl.replace(/\/$/, '')}${url}` : url,
   );
   const uuid = crypto.randomUUID();
 

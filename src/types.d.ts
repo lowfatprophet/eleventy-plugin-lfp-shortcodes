@@ -17,6 +17,54 @@ interface BlockquoteConfig {
   }
 }
 
+interface DetailConfig {
+  style: string;
+  class: string;
+}
+
+interface EmbedConfig {
+  baseUrl: string;
+}
+
+interface FigureConfig {
+  style: string;
+  class: string;
+}
+
+interface InflationConfig {
+  style: string;
+  class: string;
+}
+
+interface ListingConfig {
+  style: string;
+  class: string;
+}
+
+interface MathConfig {
+  style: string;
+  class: string;
+}
+
+interface PoemConfig {
+  style: string;
+  class: string;
+}
+
+interface RichlinkConfig {
+  style: string;
+  class: string;
+}
+
+interface TableConfig {
+  style: string;
+  class: string;
+}
+
+interface TransformerConfig {
+  outputPath: string;
+}
+
 export interface LFPShortcodeConfig {
   js: boolean;
   css: boolean;

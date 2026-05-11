@@ -1,9 +1,9 @@
-import memoize from 'memoize';
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
+import memoize from 'memoize';
 import { type RolldownBuild, rolldown } from 'rolldown';
-import type { LFPEleventyScope, LFPShortcodeConfig } from '../types.d.ts';
+import type { LFPEleventyScope } from '../types.d.ts';
 import { ASSET_OUTPUT } from '../util/constants.js';
 import { cssmin, jsmin } from '../util/helper.js';
 
@@ -13,43 +13,6 @@ function isDevelopment() { return false; }
 const defaultStyleOutputPath = join(ASSET_OUTPUT, 'styles');
 // default output path for scripts transformed by the following shortcode
 const defaultScriptOutputPath = join(ASSET_OUTPUT, 'scripts');
-
-// async function _transform(
-//   this: LFPEleventyScope,
-//   inputPath,
-//   outputPath,
-//   inlineReturn,
-//   fileReturn,
-//   transformerFunction,
-//   transformerOptions,
-// ) {
-//   const inputContent = await fs.readFile(inputPath);
-
-//   const processedContent = await transformerFunction(
-//     inputContent.toString(),
-//     transformerOptions,
-//   );
-
-//   if (inline.length) {
-//     return inlineReturn(
-//       inline !== 'true' ? inline.replaceAll("'", '"') : '',
-//       processedContent,
-//     );
-//   } else {
-//     const relativeOutputPath = path.dirname(
-//       path.join(this.eleventy.directories.output, outputPath),
-//     );
-//     if (!existsSync(relativeOutputPath)) {
-//       await fs.mkdir(relativeOutputPath, { recursive: true });
-//     }
-
-//     const baseName = path.basename(inputPath);
-
-//     fs.writeFile(path.join(relativeOutputPath, baseName), processedContent);
-
-//     return fileReturn(path.join(outputPath, baseName));
-//   }
-// }
 
 /**
  * Transforms a given file and either returns the string or writes to file.
@@ -66,12 +29,10 @@ const defaultScriptOutputPath = join(ASSET_OUTPUT, 'scripts');
  */
 export async function css(
   this: LFPEleventyScope,
-  config: LFPShortcodeConfig, 
   inputPath: string,
   inline: string = '',
   outputPath: string = defaultStyleOutputPath,
 ) {
-  console.log(config);
   const inputContent = await readFile(join(process.cwd(), inputPath));
 
   const memoizedCssmin = memoize(cssmin);
@@ -113,7 +74,6 @@ export async function css(
  */
 export async function js(
   this: LFPEleventyScope,
-  config: LFPShortcodeConfig, 
   inputPath: string,
   inline: string = '',
   outputPath: string = defaultScriptOutputPath,
@@ -150,7 +110,6 @@ export async function js(
 /** Bundles and minifies the given input file with its dependencies. Including treeshaking and inlining. */
 export async function jsbundle(
   this: LFPEleventyScope,
-  config: LFPShortcodeConfig,
   input: string,
   output: string
 ): Promise<string | undefined> {
