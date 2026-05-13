@@ -1,51 +1,47 @@
 {
-  "author": {
-    "email": "lowfatprophet@googlemail.com",
-    "name": "lowfatprophet",
-    "url": "https://lowfatprophet.netlify.app"
-  },
-  "dependencies": {
-    "@11ty/eleventy-fetch": "^5.1.2",
-    "@lowfat/log": "^0.0.1",
-    "browserslist": "^4.28.2",
-    "gray-matter": "^4.0.3",
-    "lightningcss": "^1.32.0",
-    "link-preview-js": "4.0.0",
-    "markdown-it": "^14.1.1",
-    "memoize": "^11.0.0",
-    "rolldown": "^1.0.0",
-    "temml": "^0.13.2",
-    "terser": "^5.47.1"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.4.14",
-    "@lowfat/utils": "^0.0.1",
-    "@types/markdown-it": "^14.1.2",
-    "@types/node": "^25.6.2",
-    "11ty.ts": "^0.0.7",
-    "node-html-parser": "^7.1.0",
-    "tsdown": "^0.22.0",
-    "typescript": "^6.0.3",
-    "vitest": "^4.1.5"
-  },
-  "main": "./dist/index.mjs",
-  "name": "@lowfat/eleventy-plugin-lfp-shortcodes",
-  "scripts": {
-    "build": "npx tsgo --sourceMap false",
-    "build:tsdown": "npm run test -- --run && npx tsdown",
-    "dev": "npx tsdown --watch",
-    "publish": "npm run build:tsdown && npm publish --access public",
-    "test": "vitest"
-  },
-  "tsdown": {
-    "format": {
-      "esm": [
-        "nodenext"
-      ]
+    "author": {
+        "email": "lowfatprophet@googlemail.com",
+        "name": "lowfatprophet",
+        "url": "https://lowfatprophet.netlify.app"
     },
-    "outDir": "dist"
-  },
-  "type": "module",
-  "types": "./dist/index.d.ts",
-  "version": "0.2.0"
+    "dependencies": {
+        "@11ty/eleventy-fetch": "^5.1.2",
+        "@lowfat/log": "^0.0.1",
+        "browserslist": "^4.28.2",
+        "gray-matter": "^4.0.3",
+        "lightningcss": "^1.32.0",
+        "link-preview-js": "^4.0.3",
+        "markdown-it": "^14.1.1",
+        "memoize": "^11.0.0",
+        "rolldown": "^1.0.0",
+        "temml": "^0.13.2",
+        "terser": "^5.47.1"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^2.4.14",
+        "@lowfat/utils": "^0.0.1",
+        "@types/markdown-it": "^14.1.2",
+        "@types/node": "^25.6.2",
+        "11ty.ts": "^0.0.7",
+        "node-html-parser": "^7.1.0",
+        "tsdown": "^0.22.0",
+        "typescript": "^6.0.3",
+        "vitest": "^4.1.5"
+    },
+    "exports": {
+        ".": "./dist/index.mjs",
+        "./scripts/*": "./dist/scripts/*.mjs",
+        "./styles/*": "./dist/styles/*.css"
+    },
+    "main": "./dist/index.mjs",
+    "name": "@lowfat/eleventy-plugin-lfp-shortcodes",
+    "scripts": {
+        "build": "npm run test -- --run && npx tsdown",
+        "build:dangerously": "npx tsdown",
+        "dev": "npx tsdown --watch",
+        "test": "vitest"
+    },
+    "type": "module",
+    "types": "./dist/index.d.ts",
+    "version": "0.2.0"
 }

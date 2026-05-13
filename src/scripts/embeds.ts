@@ -7,7 +7,7 @@ interface LFPEmbedEvent extends Event {
   }
 }
 
-class LFPEmbed extends HTMLElement {
+export class LFPEmbed extends HTMLElement {
   static eventType = 'lfp:embed-consent';
   template: HTMLTemplateElement | null = this.querySelector('template');
   name: string = this.getAttribute('embed-name') || '';
