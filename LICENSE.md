@@ -1,8 +1,10 @@
-# Kelp Commons License
+# LFP Commons License
 
 Copyright (c) lowfatprophet
 
 This software is licensed under a [Fair-Code license](https://faircode.io). By using the software, you agree to all of the terms and conditions below.
+
+This license is based on the [Kelp Commons License](https://github.com/cferdinandi/kelp-commons).
 
 For all third party components incorporated into the Software, those components are licensed under the  original license provided by the owner of the applicable component.
 
