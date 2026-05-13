@@ -27,7 +27,6 @@ test.describe('Listing with copy button', async () => {
   const [listing, data] = await parseMockEleventyEnv(
     listingFunction,
     {},
-    config,
     content,
     caption,
   )
@@ -44,7 +43,6 @@ test.describe('listing with ID', async () => {
   const [listing, data] = await parseMockEleventyEnv(
     listingFunction,
     {},
-    config,
     content,
     '',
     id,
@@ -61,7 +59,6 @@ test.describe('Listing with caption and ID', async () => {
   const [listing, data] = await parseMockEleventyEnv(
     listingFunction,
     {},
-    config,
     content,
     caption,
     id,
@@ -82,7 +79,6 @@ test.describe('Listing without copy button', async () => {
   const [listing, data] = await parseMockEleventyEnv(
     listingFunction,
     {},
-    config,
     content,
     '',
     '',

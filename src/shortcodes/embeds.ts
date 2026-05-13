@@ -1,8 +1,7 @@
 import Fetch from '@11ty/eleventy-fetch';
 import type { LFPBlueskyEmbedResponse, LFPEleventyScope } from '../types.d.ts';
-import { log, setCounter, wbr } from '../util/helper.js';
 import { getConfig } from '../util/config.js';
-import Log from '@lowfat/log';
+import { log, setCounter, wbr } from '../util/helper.js';
 
 interface EmbedOptions {
   /**
@@ -133,7 +132,9 @@ allow="encrypted-media; fullscreen; picture-in-picture"`,
 /**
  * Implements an embed component for Bluesky embeds.
  */
-async function blueskyEmbed(url: URL, uuid: string): Promise<string | void> {
+
+// biome-ignore lint/suspicious/noConfusingVoidType: TypeScript's recommend way of handling this
+async  function blueskyEmbed(url: URL, uuid: string): Promise<string | void> {
   const fallback = /* html */ `<p lang="en"><a href="${url}">Follow this link (${url})</a> to view the content on Bluesky.</p>`;
 
   try {
@@ -250,7 +251,7 @@ export async function embed(this: LFPEleventyScope, url: string) {
 
   if (!embedConfig?.baseUrl) {
     log.error('`embed.baseUrl` missing from plugin configuration.');
-    return;
+    return '';
   }
 
   setCounter(this.page, 'embed');

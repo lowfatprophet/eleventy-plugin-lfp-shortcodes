@@ -46,6 +46,7 @@ function textEnd(line: string) {
  * I return this shortcode
  *     right back to you!
  * {% endpoem %}
+ * ```
  */
 export function poem(this: LFPEleventyScope, content: string, caption: string = '') {
   const formattedContent = content

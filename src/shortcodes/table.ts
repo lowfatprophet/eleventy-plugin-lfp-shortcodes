@@ -6,7 +6,7 @@ import { ifCaption, ifID, md, setCounter } from '../util/helper.js';
  * @example
  * ```nunjucks
  * {% table "Table Caption" "table-id-1" -%}
- * {# the table's content, excluding `<table>`-tags #}
+ * {# the table's content, excluding `<table>` tags #}
  * {% endtable %}
  * ```
  */

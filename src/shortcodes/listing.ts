@@ -5,14 +5,14 @@ import { hasCaption, ifCaption, ifID, md, setCounter } from '../util/helper.js';
 /**
  * Paired shortcode to wrap code or code blocks inside a figure element.
  * @example
- * ```nunjucks
- * {% listing "Codeblock inside figure with caption." "listing-id-1" %}
+ * ````nunjucks
+ * {% listing "Codeblock inside figure with caption.", "listing-id-1" %}
  * ```python
  * def codeblock():
  *     print("Hello World!")
- * \```
- * {% endlisting %}
  * ```
+ * {% endlisting %}
+ * ````
  */
 export function listing(
   this: LFPEleventyScope,

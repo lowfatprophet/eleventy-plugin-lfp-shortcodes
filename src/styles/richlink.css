@@ -1,0 +1,122 @@
+/* Rich link component */
+lfp-rich-link {
+  display: block;
+  margin: 2.5ch auto;
+  container-type: inline-size;
+}
+
+/* actual rich link design element */
+.rl {
+  position: relative;
+  inline-size: min(400px, var(--f));
+  border: var(--b);
+
+  /* hide images without valid source */
+  [src="."] {
+    display: none;
+  }
+
+  /* image container */
+  .rl_s {
+    display: grid;
+    grid-template-areas: "i";
+    max-block-size: 256px;
+    overflow: hidden;
+    /* hide background image with smaller container sizes */
+    background-size: 0;
+
+    img {
+      grid-area: i;
+      block-size: 100%;
+      inline-size: 100%;
+      margin-inline: auto;
+      object-fit: contain;
+    }
+  }
+
+  /* main content segment */
+  .rl_c {
+    display: grid;
+    padding: 10px;
+  }
+
+  /* anchor element & heading */
+  .rl_l {
+    font-size: 1.25rem;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+
+    &:is(:hover, :focus-visible) {
+      text-decoration: underline;
+    }
+  }
+
+  /* excerpt paragraph, e.g., Open Graph description */
+  .rl_e {
+    max-block-size: 3lh;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @container (width > 30rem) {
+    inline-size: min(100%, 75ch);
+    
+    /* only apply styles if images get loaded */
+    &:has(.rl_s img:not([src="."])) {
+      display: grid;
+      grid-template-columns: 3fr 4fr;
+      align-items: center;
+      
+      .rl_s {
+        block-size: 100%;
+        max-block-size: 192px;
+        background-size: cover;
+  
+        img {
+          backdrop-filter: blur(5px);
+        }
+      }
+      
+      .rl_c {
+        align-self: stretch;
+        grid-template-rows: auto 1fr auto;
+      }
+    }
+  }
+}
+
+/* origin tag line */
+.rl_sn {
+  text-transform: uppercase;
+}
+
+/* footer segment with favicon & link address */
+.rl_f {
+  display: flex;
+  align-items: center;
+  gap: 1ch;
+  margin-block-start: 10px;
+  padding-block-start: 10px;
+  border-top: var(--b);
+
+  .rl_fav {
+    block-size: 1.25lh;
+    aspect-ratio: 1;
+    object-fit: contain;
+  }
+}
+
+/* privacy notic below rich link wrapper */
+.rl_pn {
+  color: var(--g);
+
+  a,
+  a:visited {
+    color: inherit;
+  }
+}

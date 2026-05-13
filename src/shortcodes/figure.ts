@@ -5,7 +5,7 @@ import { hasCaption, ifCaption, ifID, md, setCounter } from '../util/helper.js';
  * Single shortcode for creating figures from images, pictures, or videos.
  * @example
  * ```nunjucks
- * {% figure "https://placehold.co/1600x900" "image in figure with obligatory alt text" "Caption of this figure, including custom id for linking." "test-figure-1" "https://example.com/attribution-for-image" %}
+ * {% figure "https://placehold.co/1600x900", "image in figure with obligatory alt text", "Caption of this figure, including custom id for linking.", "test-figure-1", "https://example.com/attribution-for-image" %}
  * ```
  */
 export function figure(
