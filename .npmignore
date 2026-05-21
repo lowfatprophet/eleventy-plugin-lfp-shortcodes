@@ -3,5 +3,9 @@ src/
 tests/
 .gitignore
 biome.json
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+LICENSE.md
+README.md
 tsconfig.json
 vitest.config.ts
