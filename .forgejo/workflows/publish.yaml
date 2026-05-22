@@ -1,0 +1,14 @@
+name: Publish
+on:
+  push:
+jobs:
+  publish:
+    runs-on: codeberg-tiny
+    steps:
+      - uses: actions/checkout@v5
+      - run: npm i -D && npm run build:docs
+      - uses: actions/git-pages@v2
+        with:
+          site: https://lowfatprophet.codeberg.page/eleventy-plugin-lfp-shortcodes/
+          token: ${{ forge.token }}
+          source: _site/

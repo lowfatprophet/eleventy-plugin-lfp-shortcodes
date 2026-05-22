@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="/styles/main.css">
+  <link rel="stylesheet" href="/styles/prism.css">
+  <script src="/scripts/copybutton.mjs" type="module"></script>
+  <script src="/scripts/embeds.mjs" type="module"></script>
+  <script src="/scripts/richlink.mjs" type="module"></script>
+</head>
+<body>
+  <div class="site-grid">
+    <header class="site-header">
+      <div class="site-title">LFP Shortcode Library</div>
+      <ul>
+        <li>
+          <a href="https://codeberg.org/lowfatprophet/eleventy-plugin-lfp-shortcodes">
+            Source code
+          </a>
+        </li>
+      </ul>
+    </header>
+    <aside class="site-navigation">
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li>
+            <details open>
+              <summary>Shortcodes</summary>
+              <ul>
+                {% for shortcode in collections.shortcodes | sort(false, false, "data.title") -%}
+                <li>
+                  <a href="{{ shortcode.url }}" {% if shortcode.data.title === title %}aria-current="page"{% endif %}>
+                    {{ shortcode.data.title }}
+                  </a>
+                </li>
+                {%- endfor %}
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details open>
+              <summary>Custom components</summary>
+              <ul>
+                {% for customComponent in collections.customComponents | sort(false, false, "data.title") -%}
+                <li>
+                  <a href="{{ customComponent.url }}" {% if customComponent.data.title === title %}aria-current="page"{% endif %}>
+                    {{ customComponent.data.title }}
+                  </a>
+                </li>
+                {%- endfor %}
+              </ul>
+            </details>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="site-main">
+      <aside class="right">
+        {% toc %}
+      </aside>
+      <div class="left">
+        <h1>{{ title }}</h1>
+        {{ content | safe }}
+      </div>
+    </main>
+    <footer class="site-footer">
+      &copy; <a href="https://lowfatprophet.netlify.app">lowfatprophet</a>
+    </footer>
+  </div>
+</body>
+</html>

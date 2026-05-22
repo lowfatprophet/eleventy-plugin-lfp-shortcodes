@@ -9,3 +9,8 @@ export function initConfig(config: LFPShortcodeConfig) {
 export function getConfig() {
   return STORE;
 }
+
+export function updateConfig(update: Partial<LFPShortcodeConfig>) {
+  STORE = Object.assign(STORE, update);
+  return STORE;
+}

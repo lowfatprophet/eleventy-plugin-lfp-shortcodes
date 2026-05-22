@@ -1,6 +1,10 @@
 import type { EleventySuppliedData } from '11ty.ts';
 
-interface AddendumConfig {
+interface ShortcodeConfig {
+  customCounterName: string;
+}
+
+interface AddendumConfig extends ShortcodeConfig {
   header: {
     style: string;
     class: string;
@@ -9,7 +13,7 @@ interface AddendumConfig {
 }
 
 
-interface BlockquoteConfig {
+interface BlockquoteConfig extends ShortcodeConfig {
   attribution: {
     style: string;
     class: string;
@@ -17,51 +21,57 @@ interface BlockquoteConfig {
   }
 }
 
-interface DetailConfig {
+interface DetailConfig extends ShortcodeConfig {
   style: string;
   class: string;
 }
 
-interface EmbedConfig {
+interface EmbedConfig extends ShortcodeConfig {
   baseUrl: string;
 }
 
-interface FigureConfig {
+interface FigureConfig extends ShortcodeConfig {
   style: string;
   class: string;
 }
 
-interface InflationConfig {
+interface InflationConfig extends ShortcodeConfig {
   style: string;
   class: string;
 }
 
-interface ListingConfig {
+interface ListingConfig extends ShortcodeConfig {
+  captionType?: 'linkbefore' | 'linkafter' | 'linklabel' | 'nolabel' | 'nolink';
+  copyButtonText?: string;
+  defaultButtonText?: string;
+  linkIcon?: string;
+  listingLabel?: string;
+  listingLabelClass?: string;
+  listingLabelStyle?: string;
+  transformer?: (content: string) => Promise<string> | string;
+}
+
+interface MathConfig extends ShortcodeConfig {
   style: string;
   class: string;
 }
 
-interface MathConfig {
+interface PoemConfig extends ShortcodeConfig {
   style: string;
   class: string;
 }
 
-interface PoemConfig {
+interface RichlinkConfig extends ShortcodeConfig {
   style: string;
   class: string;
 }
 
-interface RichlinkConfig {
+interface TableConfig extends ShortcodeConfig {
   style: string;
   class: string;
 }
 
-interface TableConfig {
-  style: string;
-  class: string;
-}
-
-interface TransformerConfig {
+interface TransformerConfig extends ShortcodeConfig {
   outputPath: string;
 }
 
@@ -69,6 +79,10 @@ export interface LFPShortcodeConfig {
   js: boolean;
   css: boolean;
   dev: boolean;
+  log: {
+    label: string;
+    sublabel: string;
+  };
   addendum?: AddendumConfig;
   blockquote?: BlockquoteConfig;
   detail?: DetailConfig;
@@ -99,7 +113,7 @@ export interface LFPEleventyData {
 }
 
 export interface LFPEleventySuppliedData extends EleventySuppliedData {
-  [key: string]: any;
+  [key: string]: unknown;
   counters?: Record<string, number>;
 };
 

@@ -4,9 +4,8 @@ import browserslist from 'browserslist';
 import { browserslistToTargets, transform, type CustomAtRules, type TransformOptions } from 'lightningcss';
 import markdownIt, { type Options as MarkdownItOptions } from 'markdown-it';
 import { type MinifyOptions, minify as minifyTerser } from 'terser';
+import { getConfig } from './config.js';
 import { DEFAULT_MD_OPTIONS } from './constants.js';
-
-export const log = new Log('eleventy-plugin-lfp-shortcodes', 0);
 
 function isDevelopment() { return false; }
 
@@ -17,6 +16,18 @@ interface LFPEleventySuppliedData extends EleventySuppliedData {
 async function minify<T, K>(data: T, minifier: (data: T) => K, mangle: boolean = false): Promise<T | K> {
   return isDevelopment() && !mangle ? data : await minifier(data);
 }
+
+/**
+ * Extracts the date from an ISO string.
+ */
+function convertDate(date: Date) {
+  return date.toISOString().split('T').at(0);
+}
+
+export const log = new Log(Object.assign({
+  label: 'LFP',
+  sublabel: 'eleventy-plugin-lfp-shortcodes',
+}, getConfig().log ?? {}));
 
 /**
  * Converts a valid JavaScript object into a compact string representation.
@@ -40,7 +51,7 @@ export async function cssmin(styles: string) {
       code: Buffer.from(s),
       minify: true,
     };
-    // biome-ignore lint/correctness/noConstantCondition: <explanation>
+    // biome-ignore lint/correctness/noConstantCondition: temporarily disabled, will be implemented eventually
     if (false) {
       options.targets = browserslistToTargets(
         browserslist(),
@@ -146,13 +157,6 @@ export function hasCaption(caption: string | undefined) {
 }
 
 /**
- * Extracts the date from an ISO string.
- */
-function convertDate(date: Date) {
-  return date.toISOString().split('T').at(0);
-}
-
-/**
  * Converts a `date` object to an ISO string representation.
  */
 export function prettydate(dateObj: Date | string): string {
@@ -167,4 +171,25 @@ export function prettydate(dateObj: Date | string): string {
       return '';
     }
   }
+}
+
+export function ifClass(classStr: string | string[] | undefined) {
+  return classStr
+    ? `class="${typeof classStr === 'string' ? classStr : classStr.join(' ')}"`
+    : '';
+}
+
+export function ifStyle(styleStr: string | Record<string, string> | undefined) {
+  const camelToKebap = (str: string) => str.replaceAll(
+    /(?<cap>[A-Z])/g,
+    subStr => `-${subStr.toLowerCase()}`,
+  );
+  return styleStr
+    ? `class="${typeof styleStr === 'string'
+      ? styleStr
+      : Object.entries(styleStr).map(
+        ([k, v]) => `${camelToKebap(k)}:${v};`
+      ).join('')
+    }"`
+    : '';
 }

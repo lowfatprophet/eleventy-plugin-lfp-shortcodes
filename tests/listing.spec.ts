@@ -1,23 +1,31 @@
-import { expect, test } from 'vitest';
-import { root, tagName } from './utils';
-import { type HTMLElement } from 'node-html-parser';
-import { parseMockEleventyEnv } from './mock';
+import type { HTMLElement } from 'node-html-parser';
+import { expect, test, vi } from 'vitest';
 import { listing as listingFunction } from '../src/shortcodes/listing';
-import type { LFPEleventySuppliedData, LFPShortcodeConfig } from '../src/types';
+import type { LFPEleventyScope, LFPShortcodeConfig } from '../src/types';
+import { parseMockEleventyEnv } from './mock';
+import { root, tagName } from './utils';
 
-const config: LFPShortcodeConfig = {
-  css: true,
-  js: true,
-  dev: true,
-};
+vi.mock(import('../src/util/config.js'), () => ({
+  getConfig() {
+    return {
+      css: true,
+      js: true,
+      dev: true,
+      log: {
+        label: 'Test label',
+        sublabel: 'Test sublabel',
+      },
+    } as LFPShortcodeConfig;
+  },
+}));
 
-const content = '```javascript\nconsole.log("That works!");\n```';
+const content = '```javascript\nconst test = () => {\n  console.log("That works!");\n}\n```';
 const caption = 'A caption';
 const id = 'listing-id';
 
-function defaultTests(element: HTMLElement, data: Partial<LFPEleventySuppliedData>) {
+function defaultTests(element: HTMLElement, data: Partial<LFPEleventyScope>) {
   test('is figure', () => expect(tagName(element)).toContain('figure'));
-  test('has counter', () => expect(data.page.counters?.listing).toEqual(1));
+  test('has counter', () => expect(data.page?.counters?.listing).toEqual(1));
   test('has content', () => {
     expect(element.querySelector('[id^="code-frame"]')?.textContent).toContain(content);
   });
@@ -88,4 +96,23 @@ test.describe('Listing without copy button', async () => {
   defaultTests(listing, data);
   test('has no copy button', () =>
     expect(listing.querySelector('lfp-copy-button')).toBeFalsy());
+});
+
+test.describe('Listing with line numbers', async () => {
+  const [listing, data] = await parseMockEleventyEnv(
+    listingFunction,
+    {},
+    content,
+    '',
+    '',
+    'false',
+    'true'
+  );
+  const attrSelector = 'data-line-numbers';
+
+  defaultTests(listing, data);
+  test('has line numbers attribute', () =>
+    expect(
+      listing.querySelector(`[${attrSelector}]`)?.getAttribute(attrSelector) ?? ''
+    ).toContain("1 2 3"));
 });

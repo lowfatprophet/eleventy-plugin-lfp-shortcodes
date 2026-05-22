@@ -89,6 +89,7 @@ open | `"true"\|"false"` | no, default: `"false"`
 ```nunjucks
 {% detail "This is the detail's summary" "unique-id" "true" %}
 ```
+
 ### Embed
 
 Embeds remote content onto the page. The embedded resource is hidden behind a toggle to respect the user's privacy concerns. [`embeds.js`](#embedsjs) needs to be available for the client in order to provide functionality to this component.

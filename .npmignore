@@ -1,3 +1,7 @@
+_site/
+.cache/
+.forgejo/
+docs/
 node_modules/
 src/
 tests/
@@ -5,7 +9,9 @@ tests/
 biome.json
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
+eleventy.config.js
 LICENSE.md
 README.md
 tsconfig.json
+tsdown.config.ts
 vitest.config.ts
