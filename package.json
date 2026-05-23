@@ -40,6 +40,10 @@
     },
     "main": "./dist/index.mjs",
     "name": "@lowfat/eleventy-plugin-lfp-shortcodes",
+    "repository": {
+        "type": "git",
+        "url": "git+https://codeberg.org/lowfatprophet/eleventy-plugin-lfp-shortcodes.git"
+    },
     "scripts": {
         "build": "npm run test -- --run && npx tsdown",
         "build:dangerously": "npx tsdown",

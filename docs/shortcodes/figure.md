@@ -1,7 +1,7 @@
 ---
 title: Figure
 ---
-Creates a semantically sound `<figure>` element with optional `<figcatpion>`. Works great with Eleventy's own [image optimization pipeline](https://www.npmjs.com/package/@11ty/eleventy-img).
+Creates a semantically sound `<figure>` element with optional `<figcaption>`. Works great with Eleventy's own [image optimization pipeline](https://www.npmjs.com/package/@11ty/eleventy-img).
 
 Add alternative text with `alt` (strongly recommended!), an `id` to reference the image from elsewhere, and attribution for copyrighted images.
 

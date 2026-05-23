@@ -4,6 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
   <title>{{ title }}</title>
+  <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/styles/main.css">
   <link rel="stylesheet" href="/styles/prism.css">
   <script src="/scripts/copybutton.mjs" type="module"></script>
@@ -11,28 +12,42 @@
   <script src="/scripts/richlink.mjs" type="module"></script>
 </head>
 <body>
-  <div class="site-grid">
-    <header class="site-header">
-      <div class="site-title">LFP Shortcode Library</div>
+  <a href="#main-content" class="sr-only">Skip to main content</a>
+  <header class="site-header">
+    <div class="site-title">
+      <a href="/">LFP Shortcode Library</a>
+    </div>
+    <div class="site-menu">
       <ul>
         <li>
           <a href="https://codeberg.org/lowfatprophet/eleventy-plugin-lfp-shortcodes">
-            Source code
+            <img src="/codeberg-logo.svg" alt="">
+            <span class="sr-only">Source code</span>
           </a>
         </li>
       </ul>
-    </header>
-    <aside class="site-navigation">
+    </div>
+  </header>
+  <section class="navigation">
+    <div class="navigation-toggle-set">
+      <button class="site-navigation-toggle with-icon" popovertarget="site-navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-text-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+        </svg>
+        <span>Menu</span>
+      </button>
+      <button class="page-navigation-toggle collapsible-arrow" popovertarget="page-navigation">On this page</button>
+    </div>
+    <aside class="site-navigation" id="site-navigation" popover>
       <nav>
         <ul>
-          <li><a href="/">Home</a></li>
           <li>
             <details open>
-              <summary>Shortcodes</summary>
+              <summary class="collapsible-arrow">Shortcodes</summary>
               <ul>
                 {% for shortcode in collections.shortcodes | sort(false, false, "data.title") -%}
                 <li>
-                  <a href="{{ shortcode.url }}" {% if shortcode.data.title === title %}aria-current="page"{% endif %}>
+                  <a href="{{ shortcode.url }}" class="secondary" {% if shortcode.url === page.url %}aria-current="page"{% endif %}>
                     {{ shortcode.data.title }}
                   </a>
                 </li>
@@ -42,11 +57,11 @@
           </li>
           <li>
             <details open>
-              <summary>Custom components</summary>
+              <summary class="collapsible-arrow">Custom components</summary>
               <ul>
                 {% for customComponent in collections.customComponents | sort(false, false, "data.title") -%}
                 <li>
-                  <a href="{{ customComponent.url }}" {% if customComponent.data.title === title %}aria-current="page"{% endif %}>
+                  <a href="{{ customComponent.url }}" class="secondary" {% if customComponent.url === page.url %}aria-current="page"{% endif %}>
                     {{ customComponent.data.title }}
                   </a>
                 </li>
@@ -57,18 +72,62 @@
         </ul>
       </nav>
     </aside>
-    <main class="site-main">
-      <aside class="right">
-        {% toc %}
-      </aside>
-      <div class="left">
+    <aside class="page-navigation" id="page-navigation" popover>
+      {% toc %}
+    </aside>
+  </section>
+  <main class="site-main" id="main-content">
+    <div class="page-main">
+      <div class="page-content">
         <h1>{{ title }}</h1>
         {{ content | safe }}
       </div>
-    </main>
-    <footer class="site-footer">
-      &copy; <a href="https://lowfatprophet.netlify.app">lowfatprophet</a>
-    </footer>
-  </div>
+      {% if repositoryUrl or page.date -%}
+      <section class="page-metadata">
+        {% if repositoryUrl -%}
+        <a href="{{ repositoryUrl }}/src/branch/main{{ page.inputPath | replace(".", "", 1) }}" class="edit-link with-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+          </svg>
+          <span>Edit this page {% if repositoryHost %}on {{ repositoryHost | capitalize }}{% endif %}</span>
+        </a>
+        {%- endif %}
+        {% if page.date -%}
+        <div class="edit-time">
+          Last updated: <time datetime="{{ page.date.toISOString() }}" class="edit-time">{{ page.date.toLocaleString() }}</time>
+        </div>
+        {%- endif %}
+      </section>
+      {%- endif %}
+      {% set previous = collections.all | getPreviousCollectionItem %}
+      {% set next = collections.all | getNextCollectionItem %}
+      {% if previous or next -%}
+      <nav aria-label="pagination" class="pagination">
+        <ul>
+          {% if previous -%}
+          <li class="pagination-previous">
+            <a href="{{ previous.url }}" class="pagination-link">
+              <small>Previous page</small>
+              <span>{{ previous.data.title }}</span>
+            </a>
+          </li>
+          {%- endif %}
+          {% if next -%}
+          <li class="pagination-next">
+            <a href="{{ next.url }}" class="pagination-link">
+              <small>Next page</small>
+              <span>{{ next.data.title }}</span>
+            </a>
+          </li>
+          {%- endif %}
+        </ul>
+      </nav>
+      {%- endif %}
+    </div>
+  </main>
+  <footer class="site-footer">
+    &copy; <a href="https://lowfatprophet.netlify.app">lowfatprophet</a>
+  </footer>
 </body>
 </html>

@@ -1,4 +1,5 @@
 {
+    "date": "git Last Modified",
     "layout": "base.njk",
     "tags": "customComponents"
 }
