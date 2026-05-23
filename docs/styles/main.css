@@ -84,7 +84,7 @@ body {
   background-color: var(--color-bg-main);
   color: var(--color-fg-primary);
   font-family: sans-serif;
-  line-height: 1.5;
+  line-height: 1.7;
 }
 
 img {
@@ -181,8 +181,9 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
   grid-template-columns: max-content 1fr;
   align-items: center;
   block-size: var(--spacing-xl);
+  padding-inline: var(--spacing-lg);
   border-block-end: var(--border-2);
-  z-index: 1;
+  z-index: 2;
 }
 
 .site-title {
@@ -192,18 +193,32 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
   block-size: inherit;
 }
 
+.site-title a {
+  color: var(--color-fg-secondary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 250ms;
+}
+
+.site-title a:hover,
+.site-title a:focus {
+  color: var(--color-fg-primary);
+}
+
 .site-menu {
-  list-style: none;
+  list-style-type: none;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   block-size: inherit;
-  padding-inline: var(--spacing-lg);
   background-color: var(--color-bg-main);
 }
 
 .site-menu ul {
-  list-style: none;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
   padding: 0;
 }
 
@@ -214,6 +229,7 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
   margin-inline-start: var(--inline-margin);
   background-color: var(--color-bg-main);
   border-block-end: var(--border-1);
+  z-index: 1;
 }
 
 .navigation-toggle-set {
@@ -249,7 +265,12 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
 }
 
 .site-navigation:popover-open::backdrop {
-  opacity: 0.8;
+  background-color: #0003;
+  transition: background-color 250ms;
+
+  @starting-style {
+    background-color: transparent;
+  }
 }
 
 .site-navigation nav {
@@ -281,7 +302,7 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
 }
 
 .site-navigation ul {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
 }
 
@@ -311,6 +332,20 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
 
 .page-navigation:popover-open {
   box-shadow: 2px 2px 12px #0003;
+}
+
+.page-navigation h2 {
+  padding-inline: var(--spacing-md);
+  font-size: inherit;
+}
+
+.page-navigation ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.page-navigation li {
+  padding-inline: var(--spacing-md);
 }
 
 /* MAIN CONTENT */
@@ -362,6 +397,7 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
     position: sticky;
     inset-block-start: 0;
     grid-template-columns: var(--inline-margin) 1fr;
+    padding: 0;
     background-color: var(--color-bg-aside);
     border: none;
   }
@@ -371,6 +407,7 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
   }
 
   .site-menu {
+    padding-inline: var(--spacing-lg);
     border-block-end: var(--border-2);
   }
 
@@ -406,17 +443,16 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
     all: unset;
     position: fixed;
     inset: var(--spacing-xl) 0 0 auto;
+    display: grid;
     inline-size: var(--inline-margin);
     padding-block-start: var(--spacing-xl);
     background-color: initial;
   }
  
   .page-navigation nav {
-    position: sticky;
-    inset-block-start: var(--spacing-xl);
     padding-block: var(--spacing-xs);
     border-inline-start:var(--border-1);
-    overflow-x: auto;
+    overflow-y: auto;
   }
 
   .site-main {
@@ -439,6 +475,10 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
   margin-block: var(--spacing-lg) var(--spacing-md);
   padding-block-start: var(--spacing-xs);
   border-block-start: var(--border-1);
+}
+
+.page-content h3 {
+  margin-block: var(--spacing-lg) var(--spacing-sm);
 }
 
 /* TABLES */
@@ -479,7 +519,7 @@ th {
 
 /* PAGINATION */
 .pagination ul {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
   display: grid;
   grid-template-columns: 1fr;

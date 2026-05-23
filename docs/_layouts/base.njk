@@ -4,23 +4,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
   <title>{{ title }}</title>
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/styles/main.css">
-  <link rel="stylesheet" href="/styles/prism.css">
-  <script src="/scripts/copybutton.mjs" type="module"></script>
-  <script src="/scripts/embeds.mjs" type="module"></script>
-  <script src="/scripts/richlink.mjs" type="module"></script>
+  <link rel="icon" href="{{ '/favicon.ico' | absolute }}">
+  <link rel="stylesheet" href="{{ '/styles/main.css' | absolute }}">
+  <link rel="stylesheet" href="{{ '/styles/prism.css' | absolute }}">
+  <script src="{{ '/scripts/copybutton.mjs' | absolute }}" type="module"></script>
+  <script src="{{ '/scripts/embeds.mjs' | absolute }}" type="module"></script>
+  <script src="{{ '/scripts/richlink.mjs' | absolute }}" type="module"></script>
 </head>
 <body>
+  {% set hasHeadings = page.rawInput | headings %}
   <a href="#main-content" class="sr-only">Skip to main content</a>
   <header class="site-header">
     <div class="site-title">
-      <a href="/">LFP Shortcode Library</a>
+      <a href="{{ baseUrl }}" class="with-icon">
+        <img src="/lfp-logo.svg" alt="">
+        <span>LFP Shortcode Library</span>
+      </a>
     </div>
     <div class="site-menu">
       <ul>
+        <li>{{ version }}</li>
         <li>
-          <a href="https://codeberg.org/lowfatprophet/eleventy-plugin-lfp-shortcodes">
+          <a href="https://codeberg.org/lowfatprophet/eleventy-plugin-lfp-shortcodes" title="Source code">
             <img src="/codeberg-logo.svg" alt="">
             <span class="sr-only">Source code</span>
           </a>
@@ -36,7 +41,9 @@
         </svg>
         <span>Menu</span>
       </button>
+      {% if hasHeadings -%}
       <button class="page-navigation-toggle collapsible-arrow" popovertarget="page-navigation">On this page</button>
+      {%- endif %}
     </div>
     <aside class="site-navigation" id="site-navigation" popover>
       <nav>
@@ -47,7 +54,7 @@
               <ul>
                 {% for shortcode in collections.shortcodes | sort(false, false, "data.title") -%}
                 <li>
-                  <a href="{{ shortcode.url }}" class="secondary" {% if shortcode.url === page.url %}aria-current="page"{% endif %}>
+                  <a href="{{ shortcode.url | absolute }}" class="secondary" {% if shortcode.url === page.url %}aria-current="page"{% endif %}>
                     {{ shortcode.data.title }}
                   </a>
                 </li>
@@ -61,7 +68,7 @@
               <ul>
                 {% for customComponent in collections.customComponents | sort(false, false, "data.title") -%}
                 <li>
-                  <a href="{{ customComponent.url }}" class="secondary" {% if customComponent.url === page.url %}aria-current="page"{% endif %}>
+                  <a href="{{ customComponent.url | absolute }}" class="secondary" {% if customComponent.url === page.url %}aria-current="page"{% endif %}>
                     {{ customComponent.data.title }}
                   </a>
                 </li>
@@ -72,9 +79,11 @@
         </ul>
       </nav>
     </aside>
+    {% if hasHeadings -%}
     <aside class="page-navigation" id="page-navigation" popover>
       {% toc %}
     </aside>
+    {%- endif %}
   </section>
   <main class="site-main" id="main-content">
     <div class="page-main">
@@ -107,7 +116,7 @@
         <ul>
           {% if previous -%}
           <li class="pagination-previous">
-            <a href="{{ previous.url }}" class="pagination-link">
+            <a href="{{ previous.url | absolute }}" class="pagination-link">
               <small>Previous page</small>
               <span>{{ previous.data.title }}</span>
             </a>
@@ -115,7 +124,7 @@
           {%- endif %}
           {% if next -%}
           <li class="pagination-next">
-            <a href="{{ next.url }}" class="pagination-link">
+            <a href="{{ next.url | absolute }}" class="pagination-link">
               <small>Next page</small>
               <span>{{ next.data.title }}</span>
             </a>

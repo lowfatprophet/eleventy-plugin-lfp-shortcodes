@@ -6,7 +6,10 @@ import lfpShortcodes from './dist/index.mjs';
 import packageConfig from './package.json' with { type: 'json' };
 
 export default async function(eleventyConfig) {
+  const isDev = () => ['serve', 'watch'].includes(process.env.ELEVENTY_RUN_MODE);
+
   const repositoryUrl = packageConfig.repository.url.replace(/\.git$/, '').split('+').at(1) ?? false;
+  const baseUrl = 'https://lowfatprophet.codeberg.page/eleventy-plugin-lfp-shortcodes/';
 
   eleventyConfig.amendLibrary('md', mdLib => {
     mdLib.use(mdAnchor, {
@@ -21,24 +24,39 @@ export default async function(eleventyConfig) {
     return mdLib;
   });
 
+  eleventyConfig.addGlobalData(
+    'baseUrl',
+    isDev() ? '/' : baseUrl,
+  );
+  eleventyConfig.addGlobalData('version', packageConfig.version);
   eleventyConfig.addGlobalData('repositoryUrl', repositoryUrl);
   eleventyConfig.addGlobalData('repositoryHost', () => {
     return repositoryUrl ? new URL(repositoryUrl).hostname : false;
   });
 
+  eleventyConfig.addFilter('absolute', path => {
+    return isDev()
+      ? path
+      : [baseUrl.replace(/\/$/, ''), path.replace(/^\//, '')].join('/');
+  });
+
+  eleventyConfig.addFilter('headings', function (input) {
+    return /^#+?\s(?<heading>.*?$)/gm.test(input);
+  });
+
   eleventyConfig.addShortcode('toc', function () {
     const headings = [...this.page.rawInput.matchAll(/^#+?\s(?<heading>.*?$)/gm)]
-      .map(([,heading]) => /* html */ `<li style="padding-inline:var(--spacing-md)">
+      .map(([,heading]) => /* html */ `<li>
         <a href="#${slugify(heading)}" class="secondary" style="display:block;padding-block:0.25em;">${heading}</a>
       </li>`);
     return headings.length
       ? /* html */ `<nav>
-        <h2 style="padding-inline:var(--spacing-md);font-size:inherit">On this page</h2>
-        <ul style="list-style:none;padding:0">
+        <h2>On this page</h2>
+        <ul>
           ${headings.join('\n')}
         </ul>
       </nav>`
-      : '';
+      : false;
   });
 
   eleventyConfig.addPairedShortcode('example', function (inner) {
