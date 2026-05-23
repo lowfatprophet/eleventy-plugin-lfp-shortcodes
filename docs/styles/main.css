@@ -37,6 +37,7 @@
 /*********************/
 
 :root {
+  /* COLORS */
   --color-bg-aside: #f6f6f7;
   --color-bg-main: #fff;
   --color-fg-primary: #3c3c43;
@@ -46,15 +47,32 @@
   --color-border-1: #e2e2e3;
   --color-border-2: var(--color-border-1);
   
+  /* BORDERS */
   --border-1: 1px solid var(--color-border-1);
   --border-2: 1px solid var(--color-border-2);
 
+  /* SPACING */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 32px;
   --spacing-xl: 64px;
-  --inline-margin: 0;
+  --inline-margin: 0; /* gets set in media query */
+
+  /* PAGEFIND */
+  /* Colors */
+  --pf-text: var(--color-fg-primary);
+  --pf-text-secondary: var(--color-fg-secondary);
+  --pf-text-muted: var(--color-fg-secondary);
+  --pf-background: var(--color-bg-main);
+  --pf-border: var(--color-border-1);
+  --pf-border-focus: var(--color-fg-accent-2);
+  --pf-skeleton: var(--color-bg-aside);
+  --pf-skeleton-shine: var(--color-bg-aside);
+  --pf-hover: var(--color-bg-aside);
+  --pf-mark: #1a1a1a;
+  --pf-outline-focus: var(--color-fg-accent-2);
+  --pf-font: sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -126,19 +144,26 @@ button {
 /*************/
 
 .lfp-collapsible-arrow {
+  --_color-arrow: var(--color-fg-secondary);
   display: grid;
   grid-template-columns: 1fr min-content;
   align-items: center;
   gap: var(--spacing-sm);
 }
 
+.lfp-collapsible-arrow svg {
+  fill: var(--color-fg-secondary);
+  rotate: var(--_rotate, 0);
+  transition:
+    fill 250ms,
+    rotate 250ms;
+}
+
+.lfp-collapsible-arrow:hover svg {
+  fill: var(--color-fg-primary);
+}
+
 .lfp-collapsible-arrow::after {
-  content: "";
-  display: block;
-  inline-size: 0.75ex;
-  aspect-ratio: 1;
-  border-inline-end: 2px solid var(--color-fg-secondary);
-  border-block-end: 2px solid var(--color-fg-secondary);
   rotate: var(--_rotate, -45deg);
   transition:
     border-color 250ms,
@@ -146,8 +171,7 @@ button {
 }
 
 .lfp-collapsible-arrow:hover::after {
-  /* border-color: var(--color-fg-primary); */
-  color: var(--color-fg-primary);
+  --_color-arrow: var(--color-fg-primary);
 }
 
 .lfp-with-icon {
@@ -209,7 +233,7 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
 .lfp-site-menu {
   list-style-type: none;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   block-size: inherit;
   background-color: var(--color-bg-main);
@@ -244,6 +268,10 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
   background: none;
   color: var(--color-fg-secondary);
   font-size: small;
+}
+
+.lfp-navigation:has(.lfp-page-navigation:popover-open) .lfp-page-navigation-toggle {
+  --_rotate: 90deg;
 }
 
 .lfp-page-navigation-toggle {
@@ -298,7 +326,7 @@ Retrieved 2026-05-23, License - CC BY-SA 4.0
 }
 
 .lfp-site-navigation [open] summary {
-  --_rotate: 45deg;
+  --_rotate: 90deg;
 }
 
 .lfp-site-navigation ul {
@@ -607,4 +635,28 @@ th {
   .lfp-alert.lfp-alert-warning { --_c: #d29922; }
   .lfp-alert.lfp-alert-caution { --_c: #f85149; }
   .lfp-alert.lfp-alert-important { --_c: #a371f7; }
+}
+
+/* CODEBLOCK */
+.lfp-codeblock {
+  position: relative;
+}
+
+.lfp-codeblock .lfp-copy-button {
+  position: absolute;
+  inset: var(--spacing-sm) var(--spacing-sm) auto auto;
+  padding: var(--spacing-sm);
+  border: var(--border-1);
+  border-radius: var(--spacing-sm);
+  background-color: var(--color-bg-main);
+  color: var(--color-fg-secondary);
+  opacity: 0;
+  transition: opacity 250ms;
+}
+
+.lfp-codeblock .lfp-copy-button:hover,
+.lfp-codeblock .lfp-copy-button:focus,
+.lfp-codeblock:hover .lfp-copy-button,
+.lfp-codeblock:focus .lfp-copy-button {
+  opacity: 1;
 }

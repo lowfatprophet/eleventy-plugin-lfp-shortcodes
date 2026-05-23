@@ -16,12 +16,14 @@ Scripts | Styles | Applied to
 
 Import scripts (e.g., for use with a bundler) provided by this plugin like so:
 
+{% codeblock %}
 ```javascript
 import copybutton from '@lowfat/eleventy-plugin-lfp-shortcodes/scripts/copybutton';
 import embeds from '@lowfat/eleventy-plugin-lfp-shortcodes/scripts/embeds';
 
 // your logic ...
 ```
+{% endcodeblock %}
 
 From there you could even use exported classes in other places of your codebase:
 

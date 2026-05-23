@@ -2,6 +2,8 @@
 
 A comprehensive collection of shortcodes for use in any Eleventy project, with minimal setup and maximum customization. To see most of shortcodes in action on a live page, visit [lowfatprophet's style guide](https://lowfatprophet.netlify.app/style-guide).
 
+On usage and customization, [consider the documentation](https://lowfatprophet.codeberg.page/eleventy-plugin-lfp-shortcodes).
+
 ## Development
 
 ### Installation

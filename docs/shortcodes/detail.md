@@ -11,10 +11,16 @@ name | `string` | no
 id | `string` | no
 open | `"true"\|"false"` | no, default: `"false"`
 
-## Example
+## Usage
 
+{% codeblock %}
 ```liquid
 {% raw %}{% detail "This is the detail's summary" "unique-id" "true" %}{% endraw %}
 ```
+{% endcodeblock %}
+
+## Example
+
+...
 
 [^1]: With paired shortcodes, the first argument is the content placed inside the shortcode's delimiters.

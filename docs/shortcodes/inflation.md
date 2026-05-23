@@ -10,10 +10,16 @@ Argument | Type | Required
 value | `string` | yes
 year | `string` | yes
 
-## Example
+## Usage
 
+{% codeblock %}
 ```liquid
 {% raw %}{% inflation "1000", "1954" %}{% endraw %}
 ```
+{% endcodeblock %}
+
+## Example
+
+...
 
 [^1]: With paired shortcodes, the first argument is the content placed inside the shortcode's delimiters.

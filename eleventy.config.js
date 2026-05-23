@@ -2,6 +2,7 @@ import pluginSyntaxHighlight from '@11ty/eleventy-plugin-syntaxhighlight';
 import slugify from '@sindresorhus/slugify';
 import mdAnchor from 'markdown-it-anchor';
 import mdFootnotes from 'markdown-it-footnote';
+import * as pagefind from 'pagefind';
 import lfpShortcodes from './dist/index.mjs';
 import packageConfig from './package.json' with { type: 'json' };
 
@@ -66,27 +67,38 @@ function markdownItGitHubAlerts(md, options) {
 }
 
 export default async function(eleventyConfig) {
+  // naive URL string constructor
   const buildUrl = (base, path) => [base.replace(/\/$/, ''), path.replace(/^\//, '')].join('/');
   
+  // check if Eleventy is in `prod` or `dev`
   const isDev = ['serve', 'watch'].includes(process.env.ELEVENTY_RUN_MODE);
+  // fetch and clean repository URL, return false if not found
   const repositoryUrl = packageConfig.repository.url.replace(/\.git$/, '').split('+').at(1) ?? false;
-  const baseUrl = 'https://lowfatprophet.codeberg.page/eleventy-plugin-lfp-shortcodes/';
+  // global base URL, falls back to empty string for local dev; TODO: should be set via `config`
+  const baseUrl = isDev
+    ? ''
+    : 'https://lowfatprophet.codeberg.page/eleventy-plugin-lfp-shortcodes/';
 
+  // amend markdown-it
   eleventyConfig.amendLibrary('md', mdLib => {
+    // deep-linkable headings
     mdLib.use(mdAnchor, {
       permalink: mdAnchor.permalink.headerLink({ safariReaderFix: true }),
       slugify,
     });
-    mdLib.use(mdFootnotes);
+    // GitHub-flavored callouts
     mdLib.use(markdownItGitHubAlerts, {
       classPrefix: 'lfp-alert',
       containerElement: 'aside',
     });
+    // linkable footnotes
+    mdLib.use(mdFootnotes);
     mdLib.renderer.rules.footnote_block_open = () => {
       return /* html */ `<section class="lfp-footnotes" aria-label="Footnotes">
         <ol>`;
     };
-    if (!isDev) {
+    // absolute paths for markdown links
+    if (baseUrl !== '/') {
       const defaultLinkRenderer = mdLib.renderer.rules.link_open || function (tokens, idx, options, env, self) {
         return self.renderToken(tokens, idx, options);
       };
@@ -99,26 +111,26 @@ export default async function(eleventyConfig) {
     return mdLib;
   });
 
-  eleventyConfig.addGlobalData(
-    'baseUrl',
-    isDev ? '/' : baseUrl,
-  );
+  // theme config
+  // TODO: customization via `config` object, can be passed to template as is
+  eleventyConfig.addGlobalData('baseUrl', baseUrl);
   eleventyConfig.addGlobalData('version', packageConfig.version);
   eleventyConfig.addGlobalData('repositoryUrl', repositoryUrl);
   eleventyConfig.addGlobalData('repositoryHost', () => {
     return repositoryUrl ? new URL(repositoryUrl).hostname : false;
   });
 
-  eleventyConfig.addGlobalData('config', { test: 'Hallo', test2: 'Welt!' });
-
+  // convert relative path to absolute URL
   eleventyConfig.addFilter('absolute', path => {
     return isDev ? path : buildUrl(baseUrl, path);
   });
 
+  // check if current page has headings (pass `page.rawInput`)
   eleventyConfig.addFilter('headings', function (input) {
     return /^#+?\s(?<heading>.*?$)/gm.test(input);
   });
 
+  // generates table of contents for current page
   eleventyConfig.addShortcode('toc', function () {
     const headings = [...this.page.rawInput.matchAll(/^(?<level>#+?)\s(?<heading>.*?$)/gm)]
       .map(([, level, heading]) => /* html */ `<li>
@@ -134,19 +146,55 @@ export default async function(eleventyConfig) {
       : false;
   });
 
+  // generates codeblock with code copy button
+  eleventyConfig.addPairedShortcode('codeblock', function (content) {
+    return /* html */ `<figure class="lfp-codeblock">
+      <button class="lfp-copy-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+          <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+        </svg>
+      </button>
+      ${content}
+    </figure>`;
+  });
+
+  // generates example frame for rendered code examples
   eleventyConfig.addPairedShortcode('example', function (inner) {
     return /* html */ `<div style="padding:16px;border:var(--border-1)">${inner}</div>`;
   });
   
+  // default Eleventy syntax highlight plugin
   eleventyConfig.addPlugin(pluginSyntaxHighlight, {
     preAttributes: { tabindex: 0 },
   });
   
+  // own LFP shortcodes
   eleventyConfig.addPlugin(lfpShortcodes);
 
+  // copy own LFP shortcodes
   eleventyConfig.addPassthroughCopy({ 'dist/scripts/**/*.mjs': 'scripts' });
+  // copy all theme styles
   eleventyConfig.addPassthroughCopy({ 'docs/styles/**/*.css': 'styles' });
+  // copy all static content
   eleventyConfig.addPassthroughCopy({ 'docs/static/**/*': '/' });
+  // TODO: more clever way of dealing with passthrough copies
+  // (especially for customized content, e.g., images)
+
+  // post processing
+  eleventyConfig.on('eleventy.after', async ({ directories }) => {
+    // make docs searchable
+    const { index } = await pagefind.createIndex({
+      forceLanguage: 'en',
+      verbose: true,
+    });
+
+    await index?.addDirectory({ path: directories.output });
+
+    await index?.writeFiles({ outputPath: `${directories.output}/pagefind` });
+
+    await pagefind.close();
+  });
 
 	return {
     dir: {

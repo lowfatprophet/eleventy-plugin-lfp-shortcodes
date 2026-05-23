@@ -9,11 +9,17 @@ Argument | Type | Required
 --- | --- | ---
 content | `string` | yes
 
-### Inline example
+### Inline usage
 
+{% codeblock %}
 ```liquid
 {% raw %}{% math "a^2+b^2=c^2" %}{% endraw %}
 ```
+{% endcodeblock %}
+
+### Inline example
+
+...
 
 ## Block
 
@@ -25,12 +31,18 @@ content[^1] | `string` | yes
 caption | `string` | no
 id | `string` | no
 
-### Block example
+### Block usage
 
+{% codeblock %}
 ```liquid
 {% raw %}{% mathblock "Normal distribution", "equation-id-1" %}
 \Phi(x)=\frac{1}{\sqrt{2\pi \sigma^2}}\mathrm{e}^\frac{(x-\mu)^2}{2\sigma^2}
 {% endmathblock %}{% endraw %}
 ```
+{% endcodeblock %}
+
+### Block example
+
+...
 
 [^1]: With paired shortcodes, the first argument is the content placed inside the shortcode's delimiters.

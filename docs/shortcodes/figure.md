@@ -13,10 +13,16 @@ caption | `string` | no
 id | `string` | no
 attribution | `string` | no
 
-## Example
+## Usage
 
+{% codeblock %}
 ```liquid
 {% raw %}{% figure "https://placehold.co/1600x900", "image in figure with obligatory alt text", "Caption of this figure, including custom id for linking.", "test-figure-1", "https://example.com/attribution-for-image" %}{% endraw %}
 ```
+{% endcodeblock %}
+
+## Example
+
+...
 
 [^1]: With paired shortcodes, the first argument is the content placed inside the shortcode's delimiters.

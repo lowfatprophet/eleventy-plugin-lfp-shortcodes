@@ -15,6 +15,7 @@ lineNumbers | `"true"\|"false"` | no, default: `"false"`
 
 ## Usage
 
+{% codeblock %}
 ````liquid
 {% raw %}{% listing "Codeblock inside figure with caption." "listing-id-1" %}
 ```python
@@ -23,6 +24,7 @@ def codeblock():
 ```
 {% endlisting %}{% endraw %}
 ````
+{% endcodeblock %}
 
 ## Example
 

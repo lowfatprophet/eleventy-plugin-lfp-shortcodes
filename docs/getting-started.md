@@ -17,6 +17,7 @@ npm install -D @lowfat/eleventy-plugin-lfp-shortcodes
 
 Add the plugin in your `.eleventy.js`/`eleventy.config.js`/`eleventy.config.mjs`:
 
+{% codeblock %}
 ```javascript
 import shortcodes from '@lowfat/eleventy-plugin-lfp-shortcodes';
 
@@ -25,6 +26,7 @@ export default async function(eleventyConfig) {
     eleventyConfig.addPlugin(shortcodes, options);
 }
 ```
+{% endcodeblock %}
 
 Continue reading to learn about configuration via `options`.
 

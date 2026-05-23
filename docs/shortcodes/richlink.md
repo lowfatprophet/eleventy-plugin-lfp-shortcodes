@@ -7,10 +7,16 @@ Argument | Type | Required
 --- | --- | ---
 url | `string` | yes
 
-## Example
+## Usage
 
+{% codeblock %}
 ```liquid
 {% raw %}{% richlink "https://11ty.dev" %}{% endraw %}
 ```
+{% endcodeblock %}
+
+## Example
+
+...
 
 [^1]: With paired shortcodes, the first argument is the content placed inside the shortcode's delimiters.

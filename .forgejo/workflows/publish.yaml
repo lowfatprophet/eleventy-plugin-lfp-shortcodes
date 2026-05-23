@@ -3,7 +3,8 @@ on:
   push:
 jobs:
   publish:
-    runs-on: codeberg-tiny
+    # for information on runners: https://codeberg.org/actions/meta
+    runs-on: codeberg-tiny-lazy
     steps:
       - uses: actions/checkout@v5
       - run: npm i -D && npm run build:docs

@@ -55,6 +55,7 @@ Notice that shortcodes are accessed through the global `this` object provided by
 
 Shortcodes can also be imported as standalone functions, if required. But make sure to either call them in contexts, where Eleventy-provided `this` is accessible or mock it yourself, as some shortcodes require some properties of `this` to be defined:
 
+{% codeblock %}
 ```javascript
 import { addendum } from '@lowfat/eleventy-plugin-lfp-shortcodes';
 
@@ -72,3 +73,4 @@ function render() {
     return `<article>${addedContent}</article>`;
 }
 ```
+{% endcodeblock %}

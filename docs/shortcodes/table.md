@@ -9,12 +9,18 @@ content[^1] | `string` | yes
 caption | `string` | no
 id | `string` | no
 
-## Example
+## Usage
 
+{% codeblock %}
 ```liquid
 {% raw %}{% table "Table Caption", "table-id-1" -%}
 {# the table's content, excluding `<table>` tags #}
 {% endtable %}{% endraw %}
 ```
+{% endcodeblock %}
+
+## Example
+
+...
 
 [^1]: With paired shortcodes, the first argument is the content placed inside the shortcode's delimiters.

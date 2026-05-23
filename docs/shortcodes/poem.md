@@ -13,8 +13,9 @@ Argument | Type | Required
 content[^1] | `string` | yes
 caption | `string` | no
 
-## Example
+## Usage
 
+{% codeblock %}
 ```liquid
 {% raw %}{% poem "The caption", "dir:rtl;line-height:1" %}
 Roses are red,
@@ -23,5 +24,10 @@ I return this shortcode
     right back to you!
 {% endpoem %}{% endraw %}
 ```
+{% endcodeblock %}
+
+## Example
+
+...
 
 [^1]: With paired shortcodes, the first argument is the content placed inside the shortcode's delimiters.

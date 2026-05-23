@@ -22,8 +22,9 @@ Argument | Type | Required
 --- | --- | ---
 url | `string` | yes
 
-## Example
+## Usage
 
+{% codeblock %}
 ```liquid
 {% raw %}{# YouTube embed #}
 {% embed "https://youtube.com/watch?v=LpG8vtFMkD0" %}
@@ -39,5 +40,10 @@ url | `string` | yes
 {# Mastodon embed #}
 {% embed "https://mastodon.social/@deejayy/115454110249651937" %}{% endraw %}
 ```
+{% endcodeblock %}
+
+## Example
+
+...
 
 [^1]: With paired shortcodes, the first argument is the content placed inside the shortcode's delimiters.

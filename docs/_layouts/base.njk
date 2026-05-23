@@ -6,9 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
   <title>{{ title }}</title>
+  <meta name="generator" content="{{ eleventy.generator }}">
+  <meta name="description" content="">
   <link rel="icon" href="{{ '/favicon.ico' | absolute }}">
+  <link rel="stylesheet" href="{{ '/pagefind/pagefind-component-ui.css' | absolute }}">
   <link rel="stylesheet" href="{{ '/styles/main.css' | absolute }}">
   <link rel="stylesheet" href="{{ '/styles/prism.css' | absolute }}">
+  <script src="{{ '/pagefind/pagefind-component-ui.js' | absolute }}" type="module"></script>
   <script src="{{ '/scripts/copybutton.mjs' | absolute }}" type="module"></script>
   <script src="{{ '/scripts/embeds.mjs' | absolute }}" type="module"></script>
   <script src="{{ '/scripts/richlink.mjs' | absolute }}" type="module"></script>
@@ -18,12 +22,14 @@
   <a href="#main-content" class="lfp-sr-only">Skip to main content</a>
   <header class="lfp-site-header">
     <div class="lfp-site-title">
-      <a href="{{ baseUrl }}" class="lfp-with-icon">
+      <a href="{{ baseUrl }}/" class="lfp-with-icon">
         <img src="{{ '/lfp-logo.svg' | absolute }}" alt="" width="32" height="32">
         <span>LFP Shortcode Library</span>
       </a>
     </div>
     <div class="lfp-site-menu">
+      <pagefind-modal-trigger></pagefind-modal-trigger>
+      <pagefind-modal></pagefind-modal>
       <ul>
         <li>{{ version }}</li>
         <li>
@@ -44,7 +50,12 @@
         <span>Menu</span>
       </button>
       {% if hasHeadings -%}
-      <button class="lfp-page-navigation-toggle lfp-collapsible-arrow" popovertarget="page-navigation">On this page</button>
+      <button class="lfp-page-navigation-toggle lfp-collapsible-arrow" popovertarget="page-navigation">
+        <span>On this page</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+        </svg>
+      </button>
       {%- endif %}
     </div>
     <aside class="lfp-site-navigation" id="site-navigation" popover>
@@ -59,26 +70,17 @@
           {%- endfor %}
           <li>
             <details open>
-              <summary class="lfp-collapsible-arrow">Shortcodes</summary>
+              <summary class="lfp-collapsible-arrow">
+                <span>Shortcodes</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                </svg>
+              </summary>
               <ul>
                 {% for shortcode in collections.shortcodes | sort(false, false, "data.title") -%}
                 <li>
                   <a href="{{ shortcode.url | absolute }}" class="lfp-secondary" {% if shortcode.url === page.url %}aria-current="page"{% endif %}>
                     {{ shortcode.data.title }}
-                  </a>
-                </li>
-                {%- endfor %}
-              </ul>
-            </details>
-          </li>
-          <li>
-            <details open>
-              <summary class="lfp-collapsible-arrow">Custom components</summary>
-              <ul>
-                {% for customComponent in collections.customComponents | sort(false, false, "data.title") -%}
-                <li>
-                  <a href="{{ customComponent.url | absolute }}" class="lfp-secondary" {% if customComponent.url === page.url %}aria-current="page"{% endif %}>
-                    {{ customComponent.data.title }}
                   </a>
                 </li>
                 {%- endfor %}
@@ -144,5 +146,16 @@
       {%- endif %}
     </div>
   </main>
+  <script>
+    const copySuccess = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/></svg>';
+    document.querySelectorAll('.lfp-copy-button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const copyDefault = btn.innerHTML;
+        navigator.clipboard.writeText(btn.nextElementSibling.textContent);
+        btn.innerHTML = copySuccess;
+        setTimeout(() => (btn.innerHTML = copyDefault), 1500);
+      });
+    });
+  </script>
 </body>
 </html>
