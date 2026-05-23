@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preload" as="style" href="{{ '/styles/main.css' | absolute }}">
+  <link rel="preload" as="style" href="{{ '/styles/prism.css' | absolute }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
   <title>{{ title }}</title>
@@ -13,48 +15,55 @@
 </head>
 <body>
   {% set hasHeadings = page.rawInput | headings %}
-  <a href="#main-content" class="sr-only">Skip to main content</a>
-  <header class="site-header">
-    <div class="site-title">
-      <a href="{{ baseUrl }}" class="with-icon">
-        <img src="/lfp-logo.svg" alt="">
+  <a href="#main-content" class="lfp-sr-only">Skip to main content</a>
+  <header class="lfp-site-header">
+    <div class="lfp-site-title">
+      <a href="{{ baseUrl }}" class="lfp-with-icon">
+        <img src="{{ '/lfp-logo.svg' | absolute }}" alt="" width="32" height="32">
         <span>LFP Shortcode Library</span>
       </a>
     </div>
-    <div class="site-menu">
+    <div class="lfp-site-menu">
       <ul>
         <li>{{ version }}</li>
         <li>
-          <a href="https://codeberg.org/lowfatprophet/eleventy-plugin-lfp-shortcodes" title="Source code">
-            <img src="/codeberg-logo.svg" alt="">
-            <span class="sr-only">Source code</span>
+          <a href="https://codeberg.org/lowfatprophet/eleventy-plugin-lfp-shortcodes" title="Source code" rel="noopener">
+            <img src="{{ '/codeberg-logo.svg' | absolute }}" alt="" width="32" height="32">
+            <span class="lfp-sr-only">Source code</span>
           </a>
         </li>
       </ul>
     </div>
   </header>
-  <section class="navigation">
-    <div class="navigation-toggle-set">
-      <button class="site-navigation-toggle with-icon" popovertarget="site-navigation">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-text-left" viewBox="0 0 16 16">
+  <section class="lfp-navigation">
+    <div class="lfp-navigation-toggle-set">
+      <button class="lfp-site-navigation-toggle lfp-with-icon" popovertarget="site-navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
         </svg>
         <span>Menu</span>
       </button>
       {% if hasHeadings -%}
-      <button class="page-navigation-toggle collapsible-arrow" popovertarget="page-navigation">On this page</button>
+      <button class="lfp-page-navigation-toggle lfp-collapsible-arrow" popovertarget="page-navigation">On this page</button>
       {%- endif %}
     </div>
-    <aside class="site-navigation" id="site-navigation" popover>
+    <aside class="lfp-site-navigation" id="site-navigation" popover>
       <nav>
         <ul>
+          {% for p in collections.pages | sort(false, false, "data.order") -%}
+          <li>
+            <a href="{{ p.url | absolute }}" class="lfp-secondary" {% if p.url === page.url %}aria-current="page"{% endif %}>
+              {{ p.data.title }}
+            </a>
+          </li>
+          {%- endfor %}
           <li>
             <details open>
-              <summary class="collapsible-arrow">Shortcodes</summary>
+              <summary class="lfp-collapsible-arrow">Shortcodes</summary>
               <ul>
                 {% for shortcode in collections.shortcodes | sort(false, false, "data.title") -%}
                 <li>
-                  <a href="{{ shortcode.url | absolute }}" class="secondary" {% if shortcode.url === page.url %}aria-current="page"{% endif %}>
+                  <a href="{{ shortcode.url | absolute }}" class="lfp-secondary" {% if shortcode.url === page.url %}aria-current="page"{% endif %}>
                     {{ shortcode.data.title }}
                   </a>
                 </li>
@@ -64,11 +73,11 @@
           </li>
           <li>
             <details open>
-              <summary class="collapsible-arrow">Custom components</summary>
+              <summary class="lfp-collapsible-arrow">Custom components</summary>
               <ul>
                 {% for customComponent in collections.customComponents | sort(false, false, "data.title") -%}
                 <li>
-                  <a href="{{ customComponent.url | absolute }}" class="secondary" {% if customComponent.url === page.url %}aria-current="page"{% endif %}>
+                  <a href="{{ customComponent.url | absolute }}" class="lfp-secondary" {% if customComponent.url === page.url %}aria-current="page"{% endif %}>
                     {{ customComponent.data.title }}
                   </a>
                 </li>
@@ -80,21 +89,21 @@
       </nav>
     </aside>
     {% if hasHeadings -%}
-    <aside class="page-navigation" id="page-navigation" popover>
+    <aside class="lfp-page-navigation" id="page-navigation" popover>
       {% toc %}
     </aside>
     {%- endif %}
   </section>
-  <main class="site-main" id="main-content">
-    <div class="page-main">
-      <div class="page-content">
+  <main class="lfp-site-main" id="main-content">
+    <div class="lfp-page-main">
+      <div class="lfp-page-content">
         <h1>{{ title }}</h1>
         {{ content | safe }}
       </div>
       {% if repositoryUrl or page.date -%}
-      <section class="page-metadata">
+      <section class="lfp-page-metadata">
         {% if repositoryUrl -%}
-        <a href="{{ repositoryUrl }}/src/branch/main{{ page.inputPath | replace(".", "", 1) }}" class="edit-link with-icon">
+        <a href="{{ repositoryUrl }}/src/branch/main{{ page.inputPath | replace(".", "", 1) }}" class="lfp-edit-link lfp-with-icon" rel="noopener">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
@@ -103,7 +112,7 @@
         </a>
         {%- endif %}
         {% if page.date -%}
-        <div class="edit-time">
+        <div class="lfp-edit-time">
           Last updated: <time datetime="{{ page.date.toISOString() }}" class="edit-time">{{ page.date.toLocaleString() }}</time>
         </div>
         {%- endif %}
@@ -112,19 +121,19 @@
       {% set previous = collections.all | getPreviousCollectionItem %}
       {% set next = collections.all | getNextCollectionItem %}
       {% if previous or next -%}
-      <nav aria-label="pagination" class="pagination">
+      <nav class="lfp-pagination" aria-label="pagination">
         <ul>
           {% if previous -%}
-          <li class="pagination-previous">
-            <a href="{{ previous.url | absolute }}" class="pagination-link">
+          <li class="lfp-pagination-previous">
+            <a href="{{ previous.url | absolute }}" class="lfp-pagination-link">
               <small>Previous page</small>
               <span>{{ previous.data.title }}</span>
             </a>
           </li>
           {%- endif %}
           {% if next -%}
-          <li class="pagination-next">
-            <a href="{{ next.url | absolute }}" class="pagination-link">
+          <li class="lfp-pagination-next">
+            <a href="{{ next.url | absolute }}" class="lfp-pagination-link">
               <small>Next page</small>
               <span>{{ next.data.title }}</span>
             </a>
@@ -135,8 +144,5 @@
       {%- endif %}
     </div>
   </main>
-  <footer class="site-footer">
-    &copy; <a href="https://lowfatprophet.netlify.app">lowfatprophet</a>
-  </footer>
 </body>
 </html>

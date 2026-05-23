@@ -2,7 +2,11 @@
     "author": {
         "email": "lowfatprophet@googlemail.com",
         "name": "lowfatprophet",
-        "url": "https://lowfatprophet.netlify.app"
+        "url": "https://lowfatprophet.netlify.app/"
+    },
+    "bugs": {
+        "url": "https://codeberg.org/lowfatprophet/eleventy-plugin-lfp-shortcodes/issues",
+        "email": "lowfatprophet@googlemail.com"
     },
     "dependencies": {
         "@11ty/eleventy-fetch": "^5.1.2",
@@ -38,6 +42,8 @@
         "./scripts/*": "./dist/scripts/*.mjs",
         "./styles/*": "./dist/styles/*.css"
     },
+    "homepage": "https://lowfatprophet.codeberg.page/eleventy-plugin-lfp-shortcodes/",
+    "license": "SEE LICENSE IN LICENSE.md",
     "main": "./dist/index.mjs",
     "name": "@lowfat/eleventy-plugin-lfp-shortcodes",
     "repository": {
