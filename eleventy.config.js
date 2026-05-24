@@ -186,6 +186,7 @@ export default async function(eleventyConfig) {
     // make docs searchable
     const { index } = await pagefind.createIndex({
       forceLanguage: 'en',
+      site: baseUrl,
       verbose: true,
     });
 
