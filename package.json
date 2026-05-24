@@ -54,7 +54,7 @@
     "scripts": {
         "build": "npm run test -- --run && npx tsdown",
         "build:dangerously": "npx tsdown",
-        "build:docs": "npm run build && npx eleventy",
+        "build:docs": "npm run build:dangerously && npx eleventy",
         "dev:lib": "npx tsdown --watch",
         "dev:docs": "npx eleventy --serve",
         "dev": "npm run build && npm run dev:docs",
