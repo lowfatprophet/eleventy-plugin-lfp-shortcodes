@@ -1,0 +1,18 @@
+on:
+  schedule:
+  - cron: "1 0 * * *"
+  workflow_dispatch: 
+jobs:
+  mirror:
+    name: Update mirror repository from remote origin
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: configure git
+      run: git config --global --add safe.directory /github/workspace
+    - name: add remote origin
+      run: git remote add source "https://codeberg.org/lowfatprophet/eleventy-plugin-lfp-shortcodes.git" || exit 1
+    - name: fetch from remote origin
+      run: git fetch source --update-head-ok || exit 1
+    - name: push to mirror
+      run: git push --force --mirror --prune origin || exit 1
